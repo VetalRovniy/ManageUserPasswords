@@ -1,5 +1,6 @@
 ﻿using ManageUserPasswords.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,11 +14,22 @@ namespace ManageUserPasswords.Repository
         {
             try
             {
-                // Convert the list to a string
-                string data = string.Join(Environment.NewLine, list);
-
+                //Clear all data from file (rewrite data)
+               
                 // Write the string to the text file
-                File.WriteAllText(filePath, data);
+                //File.WriteAllText(filePath, data);
+                using (StreamWriter writer = new StreamWriter(filePath,false))
+                {
+                    
+                    foreach (User user in list)
+                    {
+                        string isBlocked = user.IsBlocked?"1":"0";
+
+                        writer.WriteLine($"{user.Username},{user.Password},{isBlocked},{user.RestrictedPassword}");
+                    }
+                }
+
+
                 Console.WriteLine("Save succefully!");
                 return true;
             }
@@ -28,19 +40,32 @@ namespace ManageUserPasswords.Repository
             }
         }
 
-        public List<User> ReadListFromFile<User>(string filePath)
+        public List<User> ReadListFromFile(string filePath)
         {
+            
             // Read the text file as a string
-            string data = File.ReadAllText(filePath);
-
-            // Split the string into lines and convert each line back to an object
+           
             List<User> list = new List<User>();
-            string[] lines = data.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (string line in lines)
+
+            using (StreamReader reader = new StreamReader(filePath))
             {
-                User obj = (User)Convert.ChangeType(line, typeof(User));
-                list.Add(obj);
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                   string[] fields = line.Split(',');
+                    User usr = new User(fields[0], fields[1]);
+                    try
+                    {
+                        usr.IsBlocked = (fields[2] == "1") ? true : false;
+                        usr.RestrictedPassword = fields[3];
+                    }
+                    catch (Exception ex) {
+                        
+                    }
+                   list.Add(usr);
+                }
             }
+
 
             return list;
         }

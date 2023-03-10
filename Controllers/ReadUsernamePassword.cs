@@ -13,8 +13,8 @@ namespace ManageUserPasswords.Controllers
         public bool CheckPassword(string storedPasswordHash)
         {
             //string storedPasswordHash = HashPassword("password123"); // Store hashed password
-            Console.Write("Enter your password: ");
-            string inputPassword = Console.ReadLine();
+            //Console.Write("Enter your password: ");
+            string inputPassword ="";// = Console.ReadLine();
 
             ConsoleKeyInfo key;
             do
@@ -88,8 +88,8 @@ namespace ManageUserPasswords.Controllers
             // Change the administrator password
             Console.Write("Enter the old password: ");
             string oldPassword = Console.ReadLine();
-            //readBlock.HashPassword
-            if (HashPassword(oldPassword) == currentUser.Password)
+           
+            if (VerifyPassword(oldPassword, currentUser.Password))
             {
                 Console.Write("Enter the new password: ");
                 string newPassword = Console.ReadLine();
