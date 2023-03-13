@@ -97,9 +97,16 @@ while (!readerChecker.CheckPassword(findUserPass) && maxCount>=0)
     
 }
 
-
-// Check if the user is the administrator
 if (currentUser.Username.ToUpper() == adminUsername)
+{
+    RunInAdminMode();
+}
+else
+{
+    RunInUserMode();
+}
+
+void RunInAdminMode()
 {
     Console.WriteLine("\nWelcome, administrator!");
 
@@ -258,7 +265,8 @@ if (currentUser.Username.ToUpper() == adminUsername)
         //repo.SaveListToFile(registeredUsers, fullPath);
     }
 }
-else
+
+void RunInUserMode()
 {
     //current user can change the password
     // Display the user menu
@@ -279,7 +287,7 @@ else
             readerChecker.ChangePassword(currentUser);
             break;
         case "2":
-            Console.WriteLine("Enter new user name:");        
+            Console.WriteLine("Enter new user name:");
             currentUser.Username = Console.ReadLine().Trim();
             break;
         case "3":
@@ -293,8 +301,8 @@ else
             break;
     }
 
-    //repo.SaveListToFile(registeredUsers, fullPath);
 }
+
 repo.SaveListToFile(registeredUsers, fullPath);
 //Console.WriteLine("Authentication failed. Please try again.");
 
