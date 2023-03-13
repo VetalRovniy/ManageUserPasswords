@@ -111,7 +111,9 @@ namespace ManageUserPasswords.Controllers
 
                 if (key.Key != ConsoleKey.Enter && key.Key != ConsoleKey.Backspace)
                 {
-                    /*here we can check input characrers*/
+                    /*here we can check input characrers
+                     * 6.	Наявність букв і знаків арифметичних операцій.
+                     */
                     if (!char.IsLetter(key.KeyChar)&&(!char.IsSymbol(key.KeyChar)) )
                     {
                         inputPassword += key.KeyChar;
