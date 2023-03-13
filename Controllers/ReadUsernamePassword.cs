@@ -14,28 +14,12 @@ namespace ManageUserPasswords.Controllers
         {
             //string storedPasswordHash = HashPassword("password123"); // Store hashed password
             //Console.Write("Enter your password: ");
-            string inputPassword ="";// = Console.ReadLine();
-
-            ConsoleKeyInfo key;
-            do
-            {
-                key = Console.ReadKey(true); // true parameter hides the key being pressed
-                if (key.Key != ConsoleKey.Enter && key.Key != ConsoleKey.Backspace)
-                {
-                    inputPassword += key.KeyChar;
-                    Console.Write("*"); // replace character with asterisk
-                }
-                else if (key.Key == ConsoleKey.Backspace && inputPassword.Length > 0)
-                {
-                    inputPassword = inputPassword.Substring(0, inputPassword.Length - 1);
-                    Console.Write("\b \b"); // erase the last character and replace with space
-                }
-            } while (key.Key != ConsoleKey.Enter);
+            string inputPassword = ReplacePassPhrase();
 
 
             if (VerifyPassword(inputPassword, storedPasswordHash))
             {
-                Console.WriteLine("\nPassword is correct!");
+                //Console.WriteLine("\nPassword is correct!");
                 return true;
             }
             else
@@ -87,32 +71,62 @@ namespace ManageUserPasswords.Controllers
         {
             // Change the administrator password
             Console.Write("Enter the old password: ");
-            string oldPassword = Console.ReadLine();
-           
+            string oldPassword = ReplacePassPhrase();//Console.ReadLine();
+            
+
+
             if (VerifyPassword(oldPassword, currentUser.Password))
             {
-                Console.Write("Enter the new password: ");
-                string newPassword = Console.ReadLine();
-                Console.Write("Confirm the new password: ");
-                string confirmPassword = Console.ReadLine();
+                Console.Write("\nEnter the new password: ");
+                string newPassword = ReplacePassPhrase();//Console.ReadLine();
+                Console.Write("\nConfirm the new password: ");
+                string confirmPassword = ReplacePassPhrase();
                 if (newPassword == confirmPassword)
                 {
                     currentUser.Password = HashPassword(newPassword);
-                    Console.WriteLine("Password changed successfully.");
+                    Console.WriteLine("\nPassword changed successfully.");
                    
                 }
                 else
                 {
-                    Console.WriteLine("Passwords do not match. Password not changed.");
+                    Console.WriteLine("\nPasswords do not match. Password not changed.");
                     
                 }
             }
             else
             {
-                Console.WriteLine("Invalid password. Password not changed.");
+                Console.WriteLine("\nInvalid password. Password not changed.");
                 
             }
             
         }
+
+        private string ReplacePassPhrase()
+        {
+            string inputPassword = "";
+            ConsoleKeyInfo key;
+            do
+            {
+                key = Console.ReadKey(true); // true parameter hides the key being pressed
+
+                if (key.Key != ConsoleKey.Enter && key.Key != ConsoleKey.Backspace)
+                {
+                    /*here we can check input characrers*/
+                    if (!char.IsLetter(key.KeyChar)&&(!char.IsSymbol(key.KeyChar)) )
+                    {
+                        inputPassword += key.KeyChar;
+                        Console.Write("*"); // replace character with asterisk
+                    }
+                }
+                else if (key.Key == ConsoleKey.Backspace && inputPassword.Length > 0)
+                {
+                    inputPassword = inputPassword.Substring(0, inputPassword.Length - 1);
+                    Console.Write("\b \b"); // erase the last character and replace with space
+                }
+            } while (key.Key != ConsoleKey.Enter);
+
+            return inputPassword;
+        }
+    
     }
 }

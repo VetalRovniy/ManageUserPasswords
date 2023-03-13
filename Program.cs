@@ -89,9 +89,10 @@ int maxCount = 3;
 
 while (!readerChecker.CheckPassword(findUserPass) && maxCount>=0)
 {
-    Console.Write("Enter your password: ");
+    Console.Write("\nEnter your password: ");
     maxCount--;
     if (maxCount <= 0)
+        
      Environment.Exit(1);
     
 }
@@ -100,7 +101,7 @@ while (!readerChecker.CheckPassword(findUserPass) && maxCount>=0)
 // Check if the user is the administrator
 if (currentUser.Username.ToUpper() == adminUsername)
 {
-    Console.WriteLine("Welcome, administrator!");
+    Console.WriteLine("\nWelcome, administrator!");
 
     // Enter administrator mode
     bool isAdminMode = true;
@@ -114,7 +115,8 @@ if (currentUser.Username.ToUpper() == adminUsername)
         Console.WriteLine("3. Add user");
         Console.WriteLine("4. Edit user");
         Console.WriteLine("5. Delete user");
-        Console.WriteLine("6. Exit");
+        Console.WriteLine("6. About program");
+        Console.WriteLine("7. Exit");
 
         // Prompt the user for their choice
         Console.Write("Enter your choice: ");
@@ -242,6 +244,10 @@ if (currentUser.Username.ToUpper() == adminUsername)
                 Console.WriteLine($"User {delUsername} succefully deleted");
                 break;
             case "6":
+                // about
+                Console.WriteLine("About: Password managment console application. Author Vitalii Rovnyi. 121m-22-4");
+                break;
+            case "7":
                 // Exit administrator mode
                 isAdminMode = false;
                 break;
@@ -259,7 +265,8 @@ else
     Console.WriteLine("User Mode:");
     Console.WriteLine("1. Change password");
     Console.WriteLine("2. Change user name");
-    Console.WriteLine("3. Exit");
+    Console.WriteLine("3. About program");
+    Console.WriteLine("4. Exit");
 
     // Prompt the user for their choice
     Console.Write("Enter your choice: ");
@@ -272,12 +279,13 @@ else
             readerChecker.ChangePassword(currentUser);
             break;
         case "2":
-            Console.WriteLine("Enter new user name:");
-            
+            Console.WriteLine("Enter new user name:");        
             currentUser.Username = Console.ReadLine().Trim();
-
             break;
         case "3":
+            Console.WriteLine("About: Password managment console application. Author Vitalii Rovnyi. 121m-22-4");
+            break;
+        case "4":
 
             break;
         default:
